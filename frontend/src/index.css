@@ -1,0 +1,14 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+.alert-banner {
+  background: yellow;
+  padding: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+button {
+  padding: 8px;
+  margin: 5px;
+}
