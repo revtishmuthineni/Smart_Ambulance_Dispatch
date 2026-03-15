@@ -1,9 +1,8 @@
-import { useRef, useEffect } from "react";
-import Dashboard from "./components/dashboard";
+import { useEffect } from "react";
+import Dashboard from "./components/Dashboard";
 
 export default function App() {
   console.log("🏠 App component rendering...");
-  const audioRef = useRef(null);
 
   useEffect(() => {
     console.log("🛡️ App useEffect mounting...");
