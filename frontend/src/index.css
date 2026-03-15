@@ -1,14 +1,290 @@
-body {
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* Premium Figma-style Hackathon Palette */
+  --primary-color: #ff2a5f; /* Neon Pink/Red */
+  --secondary-color: #00e676; /* Vivid Emerald */
+  --accent-color: #00f0ff; /* Cyan */
+  --dark-bg: #07090f; /* Deepest Navy/Black */
+  --darker-bg: #030407;
+  --glass-bg: rgba(18, 24, 38, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-highlight: rgba(255, 255, 255, 0.03);
+  
+  --text-light: #f8fafc;
+  --text-muted: #8b9bb4;
+  --font-main: "Plus Jakarta Sans", sans-serif;
+  
+  /* Advanced shadows */
+  --glow-primary: 0 0 24px rgba(255, 42, 95, 0.4);
+  --glow-secondary: 0 0 24px rgba(0, 230, 118, 0.3);
+  --shadow-glass: 0 24px 48px -12px rgba(0, 0, 0, 0.8);
+}
+
+* {
+  box-sizing: border-box;
   margin: 0;
-  font-family: Arial, sans-serif;
+  padding: 0;
 }
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: var(--font-main);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--dark-bg);
+  /* Premium ambient mesh gradient background */
+  background-image: 
+    radial-gradient(circle at 0% 0%, rgba(255, 42, 95, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 100% 100%, rgba(0, 240, 255, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(0, 230, 118, 0.05) 0%, transparent 60%);
+  background-attachment: fixed;
+  color: var(--text-light);
+  overflow-x: hidden;
+}
+
+/* Glassmorphism Utilities - Apple Vision Pro Style */
+.glass-panel {
+  background: var(--glass-bg);
+  background-image: linear-gradient(
+    135deg,
+    var(--glass-highlight) 0%,
+    transparent 100%
+  );
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-glass);
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle inner top highlight for 3D glass effect */
+.glass-panel::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  z-index: 10;
+}
+
+/* Animations */
+@keyframes pulse-intense {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 42, 95, 0.6); }
+  70% { transform: scale(1.08); box-shadow: 0 0 0 20px rgba(255, 42, 95, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 42, 95, 0); }
+}
+
+@keyframes slide-up-fade {
+  from { opacity: 0; transform: translateY(30px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes title-gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Base Components */
 .alert-banner {
-  background: yellow;
-  padding: 10px;
-  font-weight: bold;
+  background: linear-gradient(90deg, #ff2a5f, #ff003e);
+  color: white;
+  padding: 12px 20px;
+  font-weight: 800;
+  text-transform: uppercase;
   text-align: center;
+  font-size: 13px;
+  letter-spacing: 2px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: var(--glow-primary);
 }
+
 button {
-  padding: 8px;
-  margin: 5px;
+  font-family: var(--font-main);
+  padding: 14px 28px;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+button::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%; width: 50%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transform: skewX(-20deg);
+  transition: all 0.6s ease;
+}
+
+button:hover:not(:disabled)::after {
+  left: 150%;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-3px) scale(1.02);
+  filter: brightness(1.1);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(1px) scale(0.98);
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  filter: grayscale(100%);
+  transform: none !important;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-color), #ff4d79);
+  color: white;
+  box-shadow: 0 8px 24px -6px rgba(255, 42, 95, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-primary:hover:not(:disabled) {
+  box-shadow: var(--glow-primary);
+}
+
+.btn-glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: white;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+.btn-glass:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+select, input {
+  font-family: var(--font-main);
+  background: rgba(10, 15, 25, 0.8);
+  border: 1px solid var(--glass-border);
+  color: var(--text-light);
+  padding: 16px 20px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(12px);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+  appearance: none; /* Hide default arrow to allow custom styling later */
+  cursor: pointer;
+}
+
+/* Custom dropdown arrow for select */
+select {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b9bb4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 16px;
+  padding-right: 48px;
+}
+
+select:focus, input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 4px rgba(0, 240, 255, 0.15), inset 0 2px 4px rgba(0,0,0,0.2);
+  background: rgba(14, 20, 32, 0.95);
+}
+
+select option {
+  background-color: var(--dark-bg);
+  color: var(--text-light);
+  padding: 12px;
+}
+
+/* Leaflet Map Overrides for Ultimate Dark Mode */
+.leaflet-container {
+  background: var(--darker-bg) !important;
+  font-family: var(--font-main) !important;
+}
+
+/* High-contrast dark neon map tile filter */
+.leaflet-layer,
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out,
+.leaflet-control-attribution {
+  filter: invert(100%) hue-rotate(180deg) brightness(85%) contrast(110%) sepia(20%) hue-rotate(200deg) saturate(150%);
+}
+
+.leaflet-popup-content-wrapper {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  color: var(--text-light);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-glass);
+  font-weight: 600;
+}
+
+.leaflet-popup-tip {
+  background: rgba(18, 24, 38, 0.9);
+}
+
+/* Marker icon styles */
+.ambulance-div-icon .icon, .hospital-div-icon .icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.8);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.ambulance-div-icon .icon {
+  background: linear-gradient(135deg, var(--primary-color), #ff003e);
+  border: 3px solid #fff;
+  animation: pulse-intense 2s infinite;
+}
+
+.hospital-div-icon .icon {
+  background: linear-gradient(135deg, var(--accent-color), #0077ff);
+  border: 3px solid #fff;
+}
+
+.ambulance-div-icon .icon svg,
+.hospital-div-icon .icon svg {
+  display: block;
+  margin: 0 auto;
+  width: 24px;
+  height: 24px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+/* Highlight Text Utilities */
+.text-gradient {
+  background: linear-gradient(90deg, var(--accent-color), #00ff88);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: title-gradient 4s linear infinite;
+  display: inline-block;
 }

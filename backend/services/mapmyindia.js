@@ -40,7 +40,13 @@ async function fetchAccessToken() {
 export async function getRoutes(start, end, key) {
   // If a direct API key is provided, use the original URL pattern.
   if (key) {
+    // Validate that key is not empty
+    if (typeof key !== 'string' || key.trim().length === 0) {
+      throw new Error("Invalid MapMyIndia API key: key must be a non-empty string");
+    }
+
     const url = `https://apis.mapmyindia.com/advancedmaps/v1/${key}/route_adv/driving/${start};${end}?alternatives=true&steps=true`;
+    console.log(`📍 Requesting route: ${start} → ${end}`);
     try {
       const res = await axios.get(url);
       try {
@@ -53,7 +59,14 @@ export async function getRoutes(start, end, key) {
       }
       return res.data.routes;
     } catch (err) {
-      console.error("MapMyIndia request failed (key):", err?.response?.data || err?.message || err);
+      if (err?.response?.status === 401) {
+        console.error("❌ MapMyIndia API Error: Invalid or expired API key (401 Unauthorized)");
+        console.error("   Check your MAPMYINDIA_API_KEY in .env file");
+      } else if (err?.response?.status === 403) {
+        console.error("❌ MapMyIndia API Error: Forbidden (403) - Check your API key permissions");
+      } else {
+        console.error("MapMyIndia request failed (key):", err?.response?.data || err?.message || err);
+      }
       throw err;
     }
   }
